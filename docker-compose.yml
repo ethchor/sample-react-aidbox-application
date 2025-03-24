@@ -1,0 +1,59 @@
+version: '3.3'
+services:
+  dockerize-devbox:
+    image: jwilder/dockerize
+    command: dockerize -wait ${AIDBOX_URL}/__healthcheck -timeout 300s
+    depends_on:
+      - devbox
+    links:
+      - devbox
+  dockerize-app:
+    image: jwilder/dockerize
+    command: dockerize -wait ${AIDBOX_URL}/app-healthcheck -timeout 300s
+    depends_on:
+      - devbox
+    links:
+      - devbox
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.node-app.dev
+    depends_on:
+      - 'devbox'
+    links:
+      - 'devbox'
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    # Colored logs
+    tty: true
+
+  devbox:
+    image: '${AIDBOX_IMAGE}'
+    depends_on:
+      - 'devbox-db'
+    links:
+      - 'devbox-db:database'
+    ports:
+      - '${AIDBOX_PORT}:${AIDBOX_PORT}'
+    volumes:
+      - './aidbox-project:/aidbox-project'
+    env_file:
+      - .env
+    environment:
+      PGHOST: database
+
+  devbox-db:
+    image: '${PGIMAGE}'
+    ports:
+      - '${PGHOSTPORT}:${PGPORT}'
+    volumes:
+      - './pgdata:/data'
+    environment:
+      POSTGRES_USER: '${PGUSER}'
+      POSTGRES_PASSWORD: '${PGPASSWORD}'
+      POSTGRES_DB: '${PGDATABASE}'

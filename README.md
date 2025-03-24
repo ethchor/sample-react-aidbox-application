@@ -2,25 +2,6 @@
 
 This is a sample frontend application that uses Aidbox as backend.
 
-## The project includes
-
-- [SMART On FHIR Patient Portal module](https://github.com/Aidbox/aidbox-react-app/wiki/smart-app)
-
-## Development Stack
-
-- [Aidbox](https://docs.aidbox.app/) - FHIR server 
-- [TypeScript](https://www.typescriptlang.org/)
-- [React](https://reactjs.org/) - UI framework
-- [Effector](https://effector.dev/) - state management
-
-## Requirements
-
-- [NodeJS](https://nodejs.org/en/) >=14
-- [Docker](https://www.docker.com/) latest
-- [Docker Compose](https://docs.docker.com/compose/) latest
-- [Make](https://www.gnu.org/software/make/) latest
-- [yarn](https://yarnpkg.com/) latest
-
 ## Installation
 
 1. Prepare environment
@@ -108,11 +89,14 @@ After you have loaded the sample data, you should be able to see patients and pr
 ## Monitoring
 
 To view database logs run:
+
 ```sh
 docker logs aidbox-react-app_devbox-db_1
 ```
 
 To view Aidbox logs run:
+
 ```sh
 docker logs aidbox-react-app_devbox_1
 # sample-react-aidbox-application
+```
